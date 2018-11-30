@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<!--declaration d'un espace de nommage th dans lequ'elle est stocké thymeleaf-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--on remplace le contenu de la balise H1 avec le contenu de th attention ça remplace tout-->
+<h1 th:text="'bonjour '+${nom}">Hello World</h1>
+</body>
+</html>
