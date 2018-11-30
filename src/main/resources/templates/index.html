@@ -10,7 +10,7 @@
 <h1 th:text="'bonjour '+${nom}">Hello World</h1>
 <!--on va afficher les film ici grace a l'objet filmsDao-->
 <ul>
-    <li th:each="Film: ${films}" th:text="${Film.getTitre()}">le grand film</li>
+    <li th:each="Film: ${films}" ><a th:text="${Film.getTitre()}"  th:href="@{'/film/' + ${Film.getId()}}">test</a></li>
 </ul>
 </body>
 </html>
