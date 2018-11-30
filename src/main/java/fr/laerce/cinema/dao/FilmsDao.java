@@ -2,14 +2,17 @@ package fr.laerce.cinema.dao;
 
 import java.util.Arrays;
 import fr.laerce.cinema.model.Film;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 /**
  * Created by fred on 03/02/2016.
  */
+//on utilise component avec autowired pour créer des objets -- voir Maincontroller
+@Component
 public class FilmsDao {
     List<Film> lesFilms;
-
     public FilmsDao(){
         lesFilms = Arrays.asList(
                 new Film(1,"Le juge et l'assassin","lejugeetlassassin.jpg",3.8),

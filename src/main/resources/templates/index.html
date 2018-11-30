@@ -8,5 +8,9 @@
 <body>
 <!--on remplace le contenu de la balise H1 avec le contenu de th attention ça remplace tout-->
 <h1 th:text="'bonjour '+${nom}">Hello World</h1>
+<!--on va afficher les film ici grace a l'objet filmsDao-->
+<ul>
+    <li th:each="Film: ${films}" th:text="${Film.getTitre()}">le grand film</li>
+</ul>
 </body>
 </html>
