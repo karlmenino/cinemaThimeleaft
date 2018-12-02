@@ -1,23 +1,25 @@
 package fr.laerce.cinema.web;
 
 import fr.laerce.cinema.dao.FilmsDao;
-import fr.laerce.cinema.model.Film;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 //pour dire a springboot qu'il est un controller web on écrit cette phrase
 @Controller
-public class MainController extends HttpServlet {
+public class MainController{
     ////////////////////////////////////////////////////////////////////////////
     //on créer un objet filmDao que l'on traitera dans le template afin d'afficher les films
     //FilmsDao filmsDao= new FilmsDao ();
@@ -50,7 +52,7 @@ public class MainController extends HttpServlet {
     }
     //on créer une methode affiche qui est mapper /affiche/id avec id la variable que tu recupere qui s'avere etre le nom
     //de l'affiche du film
-    @GetMapping("/affiche/{id}")
+   // @GetMapping("/affiche/{id}")
     public void affiche (HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws IOException {
 
 //merci patrick
@@ -63,7 +65,7 @@ public class MainController extends HttpServlet {
         // Type mime associé à l'image d'après le nom de fichier
         //on a besoin de request d'ou request et response dans les parametre de la methode
         //on recupere a partir de la request le context du servlet et la methode getmine
-        String mime = request.getServletContext ().getMimeType (filename);
+        String mime = request.getServletContext().getMimeType(filename);
         //gestion du null
         if (mime == null) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -89,6 +91,26 @@ public class MainController extends HttpServlet {
         out.close();
         in.close();
     }
+    //on utilise properties et on recupere la valeur de l'url
+    @Value( "${url}" )
+    private String url;
+    //deuxieme methode pour affichezr  image
+    @GetMapping("/affiche/{id}")
+    public ResponseEntity<byte[]> getImageAsResponseEntity (HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) {
+        try {
+            HttpHeaders headers = new HttpHeaders ();
+            String filename=url+id;
+            File i = new File (filename);
+            FileInputStream in = new FileInputStream(i);;
+            byte[] media = IOUtils.toByteArray (in);
+            headers.setCacheControl (CacheControl.noCache ().getHeaderValue ());
+
+            ResponseEntity<byte[]> responseEntity = new ResponseEntity<> (media, headers, HttpStatus.OK);
+            return responseEntity;
+        } catch (IOException e) {
+            e.printStackTrace ();
+        }
+       return null;    }
 
 
 }
