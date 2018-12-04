@@ -213,4 +213,14 @@ public class DataModel {
         }
         return film;
     }
+    public Personne getByAf(String affiche){
+        Personne personne = null;
+        for (Personne p: personnes
+        ) {
+            if(p.getPhotoPath ().equals (affiche)){
+                personne = p;
+            }
+        }
+        return personne;
+    }
 }

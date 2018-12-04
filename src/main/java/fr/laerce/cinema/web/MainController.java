@@ -98,7 +98,7 @@ public class MainController{
             HttpHeaders headers = new HttpHeaders ();
             String filename=url+id;
             File i = new File (filename);
-            FileInputStream in = new FileInputStream(i);;
+            FileInputStream in = new FileInputStream(i);
             byte[] media = IOUtils.toByteArray (in);
             headers.setCacheControl (CacheControl.noCache ().getHeaderValue ());
 
@@ -109,6 +109,29 @@ public class MainController{
         }
        return null;
  }
+    @Value( "${url2}" )
+    private String url2;
+    //deuxieme methode pour affichezr  image
+    @GetMapping("/image/{id}")
+    public ResponseEntity<byte[]> getImageAsResponseEntity2 (HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) {
+        try {
+            HttpHeaders headers = new HttpHeaders ();
+            String filename=url2+id;
+            File i = new File (filename);
+            FileInputStream in = new FileInputStream(i);
+            byte[] media = IOUtils.toByteArray (in);
+            headers.setCacheControl (CacheControl.noCache().getHeaderValue());
 
-
+            ResponseEntity<byte[]> responseEntity = new ResponseEntity<> (media, headers, HttpStatus.OK);
+            return responseEntity;
+        } catch (IOException e) {
+            e.printStackTrace ();
+        }
+        return null;
+    }
+    @GetMapping("/acteur/{id}")
+    //on recupere id grace à pathvariable
+    public String acteur(Model m, @PathVariable("id") String id){
+        m.addAttribute ("actor", dataModel.getByAf(id));
+        return"acteur";}
 }
