@@ -1,5 +1,6 @@
 package fr.laerce.cinema.web;
 
+import fr.laerce.cinema.dao.DataModel;
 import fr.laerce.cinema.dao.FilmsDao;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +21,16 @@ import java.io.*;
 //pour dire a springboot qu'il est un controller web on écrit cette phrase
 @Controller
 public class MainController{
-    ////////////////////////////////////////////////////////////////////////////
-    //on créer un objet filmDao que l'on traitera dans le template afin d'afficher les films
-    //FilmsDao filmsDao= new FilmsDao ();
-    ////////////////////////////////////////////////////////////////////////////
-    //on peut utiliser cette méthode avec autowired et component dans le servlet filmDao
+    //on peut utiliser cette méthode avec autowired et component dans le servlet DataModel
     @Autowired
-    FilmsDao filmsDao;
+    DataModel dataModel;
 
     //Pour mapper la servlet,ça remplace ce que l'on met dans web.xml.
     @GetMapping("/")
     public String main(Model M){
         //on ajoute a l'objet model la clef nom et karl
         M.addAttribute ("nom","karl" );
-        M.addAttribute ("films",filmsDao.getLesFilms());
+        M.addAttribute ("films",dataModel.getFilms ());
         //on return la chaine string index de façon à ouvrir index.html
         return "index";
     }
@@ -47,12 +44,12 @@ public class MainController{
     //on recupere id grace à pathvariable
     public String detail(Model m, @PathVariable("id") String id){
         Integer idFilm = Integer.parseInt (id);
-        m.addAttribute ("film", filmsDao.getById (idFilm));
+        m.addAttribute ("film", dataModel.getById (idFilm));
         return"detail";
     }
     //on créer une methode affiche qui est mapper /affiche/id avec id la variable que tu recupere qui s'avere etre le nom
     //de l'affiche du film
-   // @GetMapping("/affiche/{id}")
+    @GetMapping("/affiche/{id}")
     public void affiche (HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws IOException {
 
 //merci patrick
@@ -61,7 +58,7 @@ public class MainController{
         // Chemin absolu de l'image
         String url="C:\\Users\\CDI\\Pictures\\affiches\\";
         //chemin relatif
-        String filename =url+id;
+        String filename =@{affiche/id};
         // Type mime associé à l'image d'après le nom de fichier
         //on a besoin de request d'ou request et response dans les parametre de la methode
         //on recupere a partir de la request le context du servlet et la methode getmine
@@ -92,25 +89,26 @@ public class MainController{
         in.close();
     }
     //on utilise properties et on recupere la valeur de l'url
-    @Value( "${url}" )
-    private String url;
-    //deuxieme methode pour affichezr  image
-    @GetMapping("/affiche/{id}")
-    public ResponseEntity<byte[]> getImageAsResponseEntity (HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) {
-        try {
-            HttpHeaders headers = new HttpHeaders ();
-            String filename=url+id;
-            File i = new File (filename);
-            FileInputStream in = new FileInputStream(i);;
-            byte[] media = IOUtils.toByteArray (in);
-            headers.setCacheControl (CacheControl.noCache ().getHeaderValue ());
-
-            ResponseEntity<byte[]> responseEntity = new ResponseEntity<> (media, headers, HttpStatus.OK);
-            return responseEntity;
-        } catch (IOException e) {
-            e.printStackTrace ();
-        }
-       return null;    }
-
-
-}
+//    @Value( "${url}" )
+//    private String url;
+//    //deuxieme methode pour affichezr  image
+//    @GetMapping("/affiche/{id}")
+//    public ResponseEntity<byte[]> getImageAsResponseEntity (HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) {
+//        try {
+//            HttpHeaders headers = new HttpHeaders ();
+//            String filename=url+id;
+//            File i = new File (filename);
+//            FileInputStream in = new FileInputStream(i);;
+//            byte[] media = IOUtils.toByteArray (in);
+//            headers.setCacheControl (CacheControl.noCache ().getHeaderValue ());
+//
+//            ResponseEntity<byte[]> responseEntity = new ResponseEntity<> (media, headers, HttpStatus.OK);
+//            return responseEntity;
+//        } catch (IOException e) {
+//            e.printStackTrace ();
+//        }
+//       return null;
+ }
+//
+//
+//}

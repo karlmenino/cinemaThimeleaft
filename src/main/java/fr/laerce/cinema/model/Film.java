@@ -1,18 +1,27 @@
 package fr.laerce.cinema.model;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Film {
-    public Film(int id, String titre, String afficheNom, double note){
-        this.id = id;
+    private int id;
+    private String titre;
+    private Double notation;
+    private String affiche;
+    private String resume;
+    private Personne realisateur;
+    private List<Role> role;
+
+    public Film(int id,String titre, Double notation, String affiche, String resume, Personne realisateur) {
+        this.id=id;
         this.titre = titre;
-        this.afficheNom = afficheNom;
-        this.note = note;
+        this.notation = notation;
+        this.resume = resume;
+        this.realisateur = realisateur;
     }
-    int id;
-    String titre;
-    String afficheNom;
-    double note;
+
+    public Film() {
+    }
 
     public int getId() {
         return id;
@@ -30,34 +39,68 @@ public class Film {
         this.titre = titre;
     }
 
-    public String getAfficheNom() {
-        return afficheNom;
+    public Double getNotation() {
+        return notation;
     }
 
-    public void setAfficheNom(String afficheNom) {
-        this.afficheNom = afficheNom;
+    public void setNotation(Double notation) {
+        this.notation = notation;
     }
 
-    public double getNote() {
-        return note;
+    public String getResume() {
+        return resume;
     }
 
-    public void setNote(double note) {
-        this.note = note;
+    public void setResume(String resume) {
+        this.resume = resume;
+    }
+
+    public Personne getRealisateur() {
+        return realisateur;
+    }
+
+    public void setRealisateur(Personne realisateur) {
+        this.realisateur = realisateur;
+    }
+
+    public String getAffiche() {
+        return affiche;
+    }
+
+    public void setAffiche(String affiche) {
+        this.affiche = affiche;
+    }
+
+    public List<Role> getRole() {
+        return role;
+    }
+
+    public void setRole(List<Role> role) {
+        this.role = role;
     }
 
     @Override
-    //permet de comparer un object avec l'object en question (this)
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Film)) return false;
         Film film = (Film) o;
-        return getId () == film.getId ();
+        return Objects.equals(getTitre(), film.getTitre()) &&
+                Objects.equals(getNotation(), film.getNotation()) &&
+                Objects.equals(getResume(), film.getResume());
     }
 
     @Override
-    //genere un hashcode unique propre a l'objet
     public int hashCode() {
-        return Objects.hash (getId ());
+        return Objects.hash(getTitre(), getNotation(), getResume());
+    }
+
+    @Override
+    public String toString() {
+        return "Film{" +
+                "titre='" + titre + '\'' +
+                ", notation=" + notation +
+                ", resume='" + resume + '\'' +
+                ", realisateur=" + realisateur +
+                '}';
     }
 }
