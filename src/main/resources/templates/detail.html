@@ -6,8 +6,8 @@
 </head>
 <body>
 <h1 th:text="${film.titre}">titre du film</h1>
-<h2>Note : <span th:text="${film.note}">4.5</span></h2>
-<h2>Nom : <span th:text="${film.afficheNom}">fichier affiche</span></h2>
-<img th:src="'/affiche/'+${film.getAfficheNom()}">
+<h2>Note : <span th:text="${film.getNotation()}">4.5</span></h2>
+<h2>Nom : <span th:text="${film.getAffiche()}">fichier affiche</span></h2>
+<img th:src="'/affiche/'+${film.getAffiche()}">
 </body>
 </html>
