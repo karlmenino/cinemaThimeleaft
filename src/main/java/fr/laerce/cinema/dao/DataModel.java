@@ -202,7 +202,7 @@ public class DataModel {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
-
+//methode pour avoir un film selon id
     public Film getById(int id){
         Film film = null;
         for (Film f: films
@@ -213,6 +213,7 @@ public class DataModel {
         }
         return film;
     }
+    //methode pour avoir une personne en fonction de son portrait
     public Personne getByAf(String affiche){
         Personne personne = null;
         for (Personne p: personnes

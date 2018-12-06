@@ -5,9 +5,11 @@
     <title th:text="${film.titre}">titre</title>
 </head>
 <body>
+<!--j'affiche le titre,la notation et l'affiche du film grace a l'objet film que j'ai envoyer dans maincontroller-->
 <h1 th:text="${film.titre}">titre du film</h1>
 <h2>Note : <span th:text="${film.getNotation()}">4.5</span></h2>
 <h2>Nom : <span th:text="${film.getAffiche()}">fichier affiche</span></h2>
+<!--Dans Maincontroller j'ai mapper /affiche/* une fonctionnalité qui affiche les images -->
 <img th:src="'/affiche/'+${film.getAffiche()}"height="300" width="300">
 <ul>
     <li th:each="role:${film.getRole()}"><img th:src="'/image/'+${role.getPersonne().getPhotoPath()}"height="75" width="75"><a th:text="${role.toString()}"th:href="@{'/acteur/'+${role.getPersonne().getPhotoPath()}}"></a></li>

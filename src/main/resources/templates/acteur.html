@@ -2,9 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="${actor.getNom()}">titre</title>
 </head>
+<!--je copie/colle ce que l'on a fait avec detail et j'adapte pour acteur-->
+<!--voire MainController pour voire l'import de actor -->
 <body>
-<H1>Bonjour</H1>
+<h1 th:text="${actor.getNom()}">nom</h1>
+<h2><span th:text="${actor.getPrenom()}">prenom</span></h2>
+<h2>née en <span th:text="${actor.getNaissance()}">naissance</span></h2>
+<img th:src="'/image/'+${actor.getPhotoPath()}"height="300" width="300">
+<!--<ul>-->
+    <!--<li th:each="role:${film.getRole()}"><img th:src="'/image/'+${actor.getPhotoPath()}"height="75" width="75"><a th:text="${role.toString()}"th:href="@{'/acteur/'+${role.getPersonne().getPhotoPath()}}"></a></li>-->
+<!--</ul>-->
 </body>
 </html>

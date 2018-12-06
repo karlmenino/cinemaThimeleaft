@@ -1,7 +1,6 @@
 package fr.laerce.cinema.web;
 
 import fr.laerce.cinema.dao.DataModel;
-import fr.laerce.cinema.dao.FilmsDao;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -109,9 +108,10 @@ public class MainController{
         }
        return null;
  }
+ //on copie/colle la methode pour le portrait des acteur
     @Value( "${url2}" )
     private String url2;
-    //deuxieme methode pour affichezr  image
+    //que l'on mappe sur image/id id etant le nom brut de l'image
     @GetMapping("/image/{id}")
     public ResponseEntity<byte[]> getImageAsResponseEntity2 (HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) {
         try {
@@ -132,6 +132,7 @@ public class MainController{
     @GetMapping("/acteur/{id}")
     //on recupere id grace à pathvariable
     public String acteur(Model m, @PathVariable("id") String id){
+        //on envoie a acteur la personne concernée grace a la methode getbyaf et id qui est le nom de l'image
         m.addAttribute ("actor", dataModel.getByAf(id));
         return"acteur";}
 }
